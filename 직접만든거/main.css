@@ -1,0 +1,96 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: blanchedalmond;
+	display: flex;
+	justify-content: center;
+	
+}
+
+main {
+	/* background-color: lightskyblue; */
+	border-radius: 10px;
+	display: flex;
+}
+
+header {
+	display: flex;
+	justify-content:space-between;
+}
+
+#newTodo {
+	background-color: transparent;
+	/* background-color: aqua; */
+	border: none;
+	cursor: pointer;
+	width: auto;
+	height: 50px;
+	margin-top: 20px;
+}
+
+.main {
+	width: 500px;
+	height: 700px;
+}
+.todo-lists{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.todo-list {
+	display: flex;
+	width: auto;
+	height: 100px;
+	background-color: aqua;
+	border-radius: 20px;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+.todo-list:hover {
+	border: 2px solid white;
+}
+
+.todo-list input[type=checkbox] {
+	margin-left: 10px;
+	transform: scale(2);
+}
+
+.todo-list input[type=text] {
+	width: 350px;
+	padding-left: 15px;
+	background-color: transparent;
+	color: black;
+	border: none;
+	font-size: 2rem;
+	text-overflow: ellipsis;
+	margin: 0px 10px;
+}
+.todo-list input[type=text]:focus {
+	outline: none;
+}
+
+.buttons {
+	margin-left: 25px;
+	display: flex;	
+	flex-direction: column;
+	justify-content: space-around;
+	margin-right: 15px
+}
+
+#editTodo,
+#removeTodo {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+#editTodo img,
+#removeTodo img {
+	width: 30px;
+	height: 30px;
+}
+
+.checked {
+	text-decoration: line-through;
+}
