@@ -1,135 +1,124 @@
-const list = document.getElementById("list");
-const createBtn = document.getElementById("create-btn");
+// 버튼들에 함수 지정
+const newTodoBtn = document.getElementById("newTodo");
+const todoLists = document.getElementById("lists");
+const newTodolist = document.getElementById("new-list");
+const checkBoxBtn = document.getElementById("checkboxTodo");
+const textBoxInput = document.getElementById("textboxTodo");
+const buttons = document.getElementById("buttons");
+const editTodoBtn = document.getElementById("editTodo");
+const removeTodoBtn = document.getElementById("removeTodo");
 
 let todos = [];
 
-createBtn.addEventListener("click", createNewTodo);
+// 새 리스트 만드는 기능
+
+newTodoBtn.addEventListener("click", createNewTodo)
+
+
+
+
+
+
+
+
 
 function createNewTodo() {
+    console.log("newTodoBtn clicked");
 
-    const item = {
+    // 새 객체 생성
+    const todoValue = {
         id: new Date().getTime(),
-        text: "",
-        complete: false
-    }
+        text : "",
+        checkBox : false,
+    
+    };
+    todos.push(todoValue);
+    // 새 객체 생성 여기까지
 
-    todos.unshift(item);
+    // 새 요소들 생성
+    const listEl = document.createElement("div");
+    listEl.classList.add("todo-list");
+    listEl.setAttribute("id", "new-list");
 
-    // itemEl, inputEl의 역할이 뭐지?
-    // => inputEl는 itemEl에 속해있는데 왜 반환이 안될까?
-    // => => inputEl은 itemEl의 자식요소이긴 하지만 별개의 요소이다
-    //       나머지 셋은 itemEl의 자식요소로 추가되고 이후에 추가적인 작업을
-    //       하지 않아도 되기 때문에 반환할 필요가 없다.
-    const { itemEl, inputEl } = createTodoElement(item);
+    const checkboxEl = document.createElement("input");
+    checkboxEl.setAttribute("id", "checkboxTodo");
+    checkboxEl.setAttribute("type", "checkbox");
+    checkboxEl.checked = todoValue.checkBox
 
-    list.prepend(itemEl);
+    const textBoxEl = document.createElement("input");
+    textBoxEl.setAttribute("id", "textboxTodo");
+    textBoxEl.setAttribute("type", "text");
+    textBoxEl.innerHTML = todoValue.text
 
-	inputEl.removeAttribute("disabled");
+    const buttonsEl = document.createElement("div");
+    buttonsEl.classList.add("buttons");
+    buttonsEl.setAttribute("id", "textboxTodo");
 
-	inputEl.focus();
-    saveToLocalStorage();
+    const editTodoBtnEl = document.createElement("button");
+    const editTodoImg = document.createElement("img");
+    editTodoImg.src = "icons/icons8-스쿠버-컴퓨터-50.png";
+    editTodoBtnEl.appendChild(editTodoImg)
+    editTodoBtnEl.setAttribute("id", "editTodo");
 
-};
-
-function createTodoElement(item) {
-    const itemEl = document.createElement("div");
-    itemEl.classList.add("item");
-
-        const checkboxEl = document.createElement("input");
-        checkboxEl.type = "checkbox";
-        checkboxEl.checked = item.complete;
-
-            checkboxEl.addEventListener("change", () => {
-                item.complete = checkboxEl.checked;
-                if (item.complete){
-                    itemEl.classList.add("complete");
-                } else {
-                    itemEl.classList.remove("complete")
-                }
-                
-                saveToLocalStorage();
-            });
-
-        const inputEl = document.createElement("input");
-        inputEl.type = "text";
-        inputEl.value = item.text;
-        // "" 문자열의 의미는 뭐지?
-        // => disabled 이랑 세트로 사용
-        inputEl.setAttribute("disabled", "");
-
-        if (item.complete) {
-            itemEl.classList.add("complete");
-        }
-            
-            inputEl.addEventListener("input", () => {
-                item.text = inputEl.value;
-                saveToLocalStorage();
-            });
-            inputEl.addEventListener("blur", () => {
-                inputEl.setAttribute("disabled", "")
-                saveToLocalStorage();
-            });
-
-        const actionsEl = document.createElement("div");
-        actionsEl.classList.add("actions");
-
-            const editBtnEl = document.createElement("button");
-            editBtnEl.classList.add("material-icons");
-            editBtnEl.innerHTML = "edit";
-
-                editBtnEl.addEventListener("click", () => {
-                    inputEl.removeAttribute("disabled");
-                    inputEl.focus();
-                });
-
-            const removeBtnEl = document.createElement("button");
-            removeBtnEl.classList.add("material-icons", "remove-btn");
-            removeBtnEl.innerHTML = "remove_circle";
-            
-                
-                // 무슨 역할인지 잘 모르겠음
-                removeBtnEl.addEventListener("click", () => {
-                    todos = todos.filter(t =>t.id != item.id);
-
-                    itemEl.remove();
-                    saveToLocalStorage();
-                });
-
-    itemEl.appendChild(checkboxEl);
-    itemEl.appendChild(inputEl);
-    itemEl.appendChild(actionsEl);
-
-    actionsEl.appendChild(editBtnEl);
-    actionsEl.appendChild(removeBtnEl);
-
-    // 리턴은 왜 넣어야하지? 
-    // => 리턴을 넣지 않으면 만든 요소들이 반환되지 않음
-    //    근데 저번에는 안넣었던거같은데
-    return {itemEl, inputEl, editBtnEl, removeBtnEl}
-}
-
-function saveToLocalStorage() {
-    const data = JSON.stringify(todos);
-
-    localStorage.setItem("mytodos", data)
-}
-
-function loadStorage() {
-    const data = localStorage.getItem("mytodos");
-    if (data) { 
-        todos = JSON.parse(data);
-    }
-}
-
-function displayTodos() {
-    loadStorage();
+    const removeTodoBtnEl = document.createElement("button");
+    const removeTodoBtnImg = document.createElement("img");
+    removeTodoBtnImg.src = "icons/icons850.png";
+    removeTodoBtnEl.appendChild(removeTodoBtnImg)
+    removeTodoBtnEl.setAttribute("id", "removeTodo");
     
 
-    for (let i = 0; i < todos.length; i++) {
-        const item = todos[i];
-        const { itemEl, inputEl} = createTodoElement(item);
-        list.append(itemEl );
-    }
-}
+    todoLists.prepend(listEl);
+    listEl.appendChild(checkboxEl);
+    listEl.appendChild(textBoxEl);
+    listEl.appendChild(buttonsEl);
+    buttonsEl.appendChild(editTodoBtnEl);
+    buttonsEl.appendChild(removeTodoBtnEl);
+    textBoxEl.focus();
+    saveToLocalStorage();
+    // 새 요소들 생성 여기까지
 
-displayTodos();
+    // 이벤트 리스너
+    editTodoBtnEl.addEventListener("click", () => {
+        textBoxEl.removeAttribute("disabled");
+        textBoxEl.focus();
+    });
+    
+    checkboxEl.addEventListener("change", () => {
+        if (checkboxEl.checked) {
+            textBoxEl.classList.add("checked");
+            todos.checkBox = true;
+            listEl.style.opacity = "0.5";
+        } else {
+            textBoxEl.classList.remove("checked");
+            todos.checkBox = false;
+            listEl.style.opacity = "1";
+
+        }
+        saveToLocalStorage();
+
+    });
+
+    textBoxEl.addEventListener("input", () => {
+        todos.text = textBoxEl.value;
+        saveToLocalStorage();
+    });
+
+    textBoxEl.addEventListener("blur", () => {
+        textBoxEl.setAttribute("disabled", "");
+    });
+
+    removeTodoBtnEl.addEventListener("click", () => {
+        listEl.remove();
+        saveToLocalStorage();
+    });
+
+    // 이벤트 리스너 여기까지
+};
+
+// 로컬스토리지
+function saveToLocalStorage() {
+    const data = JSON.stringify(todos);
+    localStorage.setItem("todos", data);
+    console.log(todos);
+}
+// 로컬스토리지 여기까지
